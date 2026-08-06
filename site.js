@@ -79,12 +79,6 @@ function applyNavState() {
 function setupToggle() {
   const button = document.getElementById("nav-toggle");
   if (!button) return;
-  if (!button.parentElement || !button.parentElement.classList.contains("nav-toggle-shell")) {
-    const shell = document.createElement("div");
-    shell.className = "nav-toggle-shell";
-    button.parentNode.insertBefore(shell, button);
-    shell.appendChild(button);
-  }
   button.addEventListener("click", () => {
     const collapsed = document.body.classList.toggle("nav-collapsed");
     localStorage.setItem(NAV_STATE_KEY, collapsed ? "1" : "0");
