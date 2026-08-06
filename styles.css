@@ -1,0 +1,330 @@
+:root {
+  --bb-trusted-blue: #004054;
+  --bb-impact-green: #0cd973;
+  --bb-blue-700: #2256aa;
+  --bb-blue-100: #eef3fc;
+  --bb-gray-25: #fbfbfb;
+  --bb-gray-100: #eeeeef;
+  --bb-gray-700: #51555c;
+  --bb-gray-1000: #1e2229;
+  --accent: #2b6bd5;
+  --page-bg: #f4f7fb;
+  --card-bg: #ffffff;
+  --border: #d5dce8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--page-bg);
+  color: var(--bb-gray-1000);
+}
+
+a {
+  color: inherit;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 372px;
+  background: var(--bb-trusted-blue);
+  color: #f7fbfd;
+  padding: 1.25rem 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  margin-bottom: 1rem;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.brand p {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: #cde5eb;
+}
+
+.logo-pill {
+  margin-top: 0.9rem;
+  display: inline-flex;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #032f53;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.group-label {
+  margin-top: 1.65rem;
+  margin-bottom: 0.6rem;
+  padding-top: 0.2rem;
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: #97bdc8;
+}
+
+.search-wrap {
+  position: relative;
+}
+
+#capability-search {
+  width: 100%;
+  border: 1px solid #2f5f6d;
+  border-radius: 0.5rem;
+  background: #0c5267;
+  color: #ffffff;
+  padding: 0.62rem 0.68rem;
+}
+
+#capability-search::placeholder {
+  color: #bbd5dd;
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 0;
+  width: min(560px, 80vw);
+  z-index: 30;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(12, 25, 41, 0.22);
+  color: #17253b;
+  display: none;
+}
+
+.search-results.open {
+  display: block;
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.68rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: #37526f;
+}
+
+.search-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.search-item {
+  padding: 0.6rem 0.68rem;
+  border-bottom: 1px solid #edf1f7;
+  cursor: pointer;
+}
+
+.search-item:last-child {
+  border-bottom: 0;
+}
+
+.search-item strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.search-item span {
+  display: block;
+  font-size: 0.79rem;
+  color: #4e617f;
+  margin-top: 0.2rem;
+}
+
+.search-item.active,
+.search-item:hover {
+  background: #edf4ff;
+}
+
+.nav-list {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.nav-item {
+  text-decoration: none;
+  padding: 0.5rem 0.45rem 0.5rem 0.62rem;
+  border-left: 3px solid transparent;
+  color: #eaf5f8;
+  line-height: 1.3;
+  border-radius: 0.2rem;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-item.active {
+  border-left-color: var(--bb-impact-green);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.content {
+  flex: 1;
+  padding: 2.3rem 3rem 2.5rem;
+}
+
+.page-title {
+  margin: 0 0 0.7rem;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  margin: 0 0 1.15rem;
+  color: var(--bb-gray-700);
+  max-width: 72ch;
+}
+
+.meta {
+  margin: 0 0 1.6rem;
+  color: #5b6780;
+  font-size: 0.9rem;
+}
+
+.hero {
+  background: linear-gradient(130deg, #0c5267 0%, #2b6bd5 58%, #68a2ff 100%);
+  color: #ffffff;
+  border-radius: 0.85rem;
+  padding: 1.5rem;
+  margin-bottom: 1.35rem;
+}
+
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  padding: 1rem 1.05rem;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.card p,
+.card li {
+  color: #2a3955;
+  line-height: 1.45;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.22rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.pill.good {
+  background: #d8f9e9;
+  color: #085a31;
+}
+
+.pill.warn {
+  background: #feede0;
+  color: #743207;
+}
+
+.pill.info {
+  background: var(--bb-blue-100);
+  color: #173f82;
+}
+
+.legal-box {
+  max-width: 76ch;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 0.72rem;
+  padding: 1.3rem 1.4rem;
+  line-height: 1.75;
+  color: #1f2d42;
+}
+
+.pager {
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pager a {
+  text-decoration: none;
+  color: #1e4fa3;
+  font-weight: 600;
+}
+
+#nav-toggle {
+  position: fixed;
+  top: 0.95rem;
+  left: 384px;
+  z-index: 70;
+  background: #ffffff;
+  border: 1px solid #c6d6eb;
+  border-radius: 999px;
+  padding: 0.38rem 0.7rem;
+  color: #173f82;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+body.nav-collapsed .sidebar {
+  display: none;
+}
+
+body.nav-collapsed #nav-toggle {
+  left: 0.95rem;
+}
+
+@media (max-width: 1120px) {
+  .sidebar {
+    width: 340px;
+  }
+  #nav-toggle {
+    left: 351px;
+  }
+}
+
+@media (max-width: 900px) {
+  .content {
+    padding: 1.2rem 1rem 1.4rem;
+  }
+  .page-title {
+    font-size: 1.5rem;
+  }
+  .search-results {
+    width: min(90vw, 560px);
+  }
+}
