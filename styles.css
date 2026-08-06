@@ -66,12 +66,17 @@ a {
 .logo-pill {
   margin-top: 0.9rem;
   display: inline-flex;
-  padding: 0.4rem 0.65rem;
+  padding: 0.35rem 0.6rem;
   border-radius: 999px;
   background: #ffffff;
-  color: #032f53;
-  font-weight: 700;
-  font-size: 0.8rem;
+  min-height: 34px;
+  align-items: center;
+}
+
+.logo-pill img {
+  display: block;
+  height: 20px;
+  width: auto;
 }
 
 .group-label {
@@ -286,16 +291,24 @@ a {
   font-weight: 600;
 }
 
-#nav-toggle {
+.nav-toggle-shell {
   position: fixed;
-  top: 0.95rem;
-  left: 384px;
+  top: 0.8rem;
+  left: 378px;
   z-index: 70;
-  background: #ffffff;
-  border: 1px solid #c6d6eb;
+  background: rgba(8, 19, 37, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+#nav-toggle {
+  background: transparent;
+  border: 0;
   padding: 0.38rem 0.7rem;
-  color: #173f82;
+  color: #ffffff;
   font-size: 0.82rem;
   cursor: pointer;
 }
@@ -305,6 +318,10 @@ body.nav-collapsed .sidebar {
 }
 
 body.nav-collapsed #nav-toggle {
+  left: auto;
+}
+
+body.nav-collapsed .nav-toggle-shell {
   left: 0.95rem;
 }
 
@@ -312,7 +329,7 @@ body.nav-collapsed #nav-toggle {
   .sidebar {
     width: 340px;
   }
-  #nav-toggle {
+  .nav-toggle-shell {
     left: 351px;
   }
 }
