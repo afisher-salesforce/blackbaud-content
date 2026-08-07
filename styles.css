@@ -64,14 +64,14 @@ a {
 }
 
 .logo-pill {
-  margin-top: 0.9rem;
+  margin-top: 1.25rem;
   display: block;
 }
 
 .logo-pill img {
   display: block;
-  width: 125px;
-  height: auto;
+  height: 40px;
+  width: auto;
 }
 
 .group-label {
