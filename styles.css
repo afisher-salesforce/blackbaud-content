@@ -65,10 +65,7 @@ a {
 
 .logo-pill {
   margin-top: 0.9rem;
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: #ffffff;
+  display: block;
 }
 
 .logo-pill img {
