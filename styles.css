@@ -66,13 +66,11 @@ a {
 .logo-pill {
   margin-top: 1.25rem;
   display: block;
-  border-radius: 3px;
-  padding: 5px 9px;
 }
 
 .logo-pill img {
   display: block;
-  height: 20px;
+  height: 40px;
   width: auto;
 }
 
