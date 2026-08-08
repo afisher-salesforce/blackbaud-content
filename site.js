@@ -10,6 +10,7 @@ const pages = [
   { href: "theme-5.html", title: "5. Security, Trust, and Adoption" },
   { href: "capability-map.html", title: "Capability Sequencing" },
   { href: "domain-map.html", title: "Salesforce Domain Map" },
+  { href: "enablement-roadmap.html", title: "Trailhead Enablement Roadmap" },
   { href: "external-research.html", title: "External Research" },
   { href: "forward-looking-statement.html", title: "Forward Looking Statement" }
 ];
@@ -41,8 +42,8 @@ function buildNav(currentPage) {
   if (!nav) return;
   const overview = pages.slice(0, 2);
   const vignettes = pages.slice(2, 7);
-  const architecture = pages.slice(7, 9);
-  const appendix = pages.slice(9);
+  const architecture = pages.slice(7, 10);
+  const appendix = pages.slice(10);
 
   const section = (title, items) => `
     <div class="group-label">${title}</div>
