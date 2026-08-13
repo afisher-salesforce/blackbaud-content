@@ -13,8 +13,12 @@ React + Express implementation of the executive content-management discussion si
 
 ```bash
 npm install
+npm run api-server
 npm run dev
 ```
+
+`npm run dev` serves the React app and proxies `/api/*` to `http://localhost:8080`.
+Run `npm run api-server` in parallel so auth/session endpoints are available during local development.
 
 ## Production build and run
 
