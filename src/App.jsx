@@ -32,6 +32,14 @@ const pages = {
           "Blackbaud already owns the majority of required platform components. The primary decision is sequencing and adoption discipline, not platform replacement."
       },
       {
+        heading: "v2 Licensing and Delivery Corrections",
+        list: [
+          "Sales/CS delivery is Microsoft-first (Teams, SharePoint, Outlook); Slack is not a Sales/CS dependency.",
+          "MuleSoft ownership currently reflects Dataloader.io Enterprise, not Anypoint/Titanium.",
+          "Bynder, Klue, and Workday connector patterns via full MuleSoft are incremental purchases."
+        ]
+      },
+      {
         heading: "Executive Stakes by Persona",
         list: [
           "CRO: Improve win-rate consistency and deal-cycle velocity.",
@@ -56,6 +64,11 @@ const pages = {
         heading: "Future State",
         copy:
           "A unified operating model where recommendation quality, governance, and seller adoption are managed as one system."
+      },
+      {
+        heading: "Context from Assessment v2",
+        copy:
+          "The operating model assumes Microsoft-first execution for Sales/CS with Agentforce reasoning delivered through Teams and CRM, while preserving optionality for selective ISV overlays."
       }
     ]
   },
@@ -73,6 +86,11 @@ const pages = {
           "Microsoft Ecosystem Integration (IMS)",
           "Enterprise Integration and Connectors (IEI, IEP)"
         ]
+      },
+      {
+        heading: "Assessment v2 Implication",
+        copy:
+          "SharePoint and Teams pathways are owned today; integration patterns dependent on MuleSoft Anypoint (for Bynder/Klue/Workday) should be treated as incremental scope, not already-contracted capability."
       }
     ]
   },
@@ -107,6 +125,11 @@ const pages = {
           "Recommendations and Experience (ORE)",
           "Self Service (VSS)"
         ]
+      },
+      {
+        heading: "Assessment v2 Implication",
+        copy:
+          "Broad GTM access remains viable through Experience Cloud (pipeline) and Teams distribution. Slack-based governance workflows are not assumed for Sales/CS users."
       }
     ]
   },
@@ -164,6 +187,11 @@ const pages = {
         heading: "Phase 3",
         copy:
           "Expansion and precision: broaden controlled access and selectively close residual workflow gaps."
+      },
+      {
+        heading: "Assessment v2 Adjustment",
+        copy:
+          "Treat MuleSoft-dependent workstreams as explicit investment decisions. Prioritize owned Teams/Data Cloud pathways first, then evaluate incremental integration tiers based on measured value."
       }
     ],
     enablement: [
@@ -191,6 +219,11 @@ const pages = {
           "Sales: in-workflow guidance and opportunity-linked execution.",
           "Integration: resilient connectivity across content and identity systems."
         ]
+      },
+      {
+        heading: "Assessment v2 Domain Signal",
+        copy:
+          "Integration domain should distinguish owned capabilities from incremental connector architecture, while governance assumes Microsoft-first collaboration channels for Sales/CS."
       }
     ],
     enablement: [
@@ -376,7 +409,7 @@ function Sidebar() {
         <h1>Blackbaud Content Management Rationalization</h1>
         <p>Salesforce Executive Discussion Site</p>
         <div className="logo-pill">
-          <img src="/salesforce-logo.jpg" alt="Salesforce logo" />
+          <img src="/blackbaud-favicon.png" alt="Blackbaud logo" />
         </div>
       </div>
       <div className="group-label">Search</div>
