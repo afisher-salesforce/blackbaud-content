@@ -260,7 +260,7 @@ const pages = {
         links: [{ label: "Open full Capability Scorecard", href: "/scorecard", internal: true }]
       },
       {
-        heading: "v2 Licensing and Delivery Corrections",
+        heading: "Licensing and Delivery Guardrails",
         list: [
           "Sales/CS delivery is Microsoft-first (Teams, SharePoint, Outlook); Slack is not a Sales/CS dependency.",
           "MuleSoft ownership currently reflects Dataloader.io Enterprise, not Anypoint/Titanium.",
@@ -311,7 +311,7 @@ const pages = {
         ]
       },
       {
-        heading: "Context from Assessment v2",
+        heading: "Operating Context Signals",
         copy:
           "The operating model assumes Microsoft-first execution for Sales/CS with Agentforce reasoning delivered through Teams and CRM, while preserving optionality for selective ISV overlays.",
         risks: [
@@ -349,7 +349,7 @@ const pages = {
         ]
       },
       {
-        heading: "Assessment v2 Implication",
+        heading: "Implementation Implication",
         copy:
           "SharePoint and Teams pathways are owned today; integration patterns dependent on MuleSoft Anypoint (for Bynder/Klue/Workday) should be treated as incremental scope, not already-contracted capability.",
         risks: [
@@ -420,7 +420,7 @@ const pages = {
         ]
       },
       {
-        heading: "Assessment v2 Implication",
+        heading: "Implementation Implication",
         copy:
           "Broad GTM access remains viable through Experience Cloud (pipeline) and Teams distribution. Slack-based governance workflows are not assumed for Sales/CS users.",
         risks: [
@@ -527,7 +527,7 @@ const pages = {
         metrics: [{ label: "Primary Objective", value: "Expand with Precision", note: "Scale proven patterns only." }]
       },
       {
-        heading: "Assessment v2 Adjustment",
+        heading: "Sequencing Adjustment",
         copy:
           "Treat MuleSoft-dependent workstreams as explicit investment decisions. Prioritize owned Teams/Data Cloud pathways first, then evaluate incremental integration tiers based on measured value.",
         decisionPrompts: [
@@ -609,7 +609,7 @@ const pages = {
         ]
       },
       {
-        heading: "Assessment v2 Domain Signal",
+        heading: "Domain Prioritization Signal",
         copy:
           "Integration domain should distinguish owned capabilities from incremental connector architecture, while governance assumes Microsoft-first collaboration channels for Sales/CS.",
         risks: [
