@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import PrintView from "./pages/PrintView";
 
 const NAV_KEY = "bbContentNavCollapsed";
 const TRAILHEAD_VERIFIED_AT = "2026-08-13";
@@ -690,8 +689,60 @@ const pages = {
     path: "/external-research",
     group: "Appendix",
     subtitle:
-      "Blackbaud enters this window with recurring-revenue strength, explicit AI ambition, and pressure to simplify GTM tooling.",
+      "Market, financial, competitive, and strategic signals from the Blackbaud External Research Brief.",
     blocks: [
+      {
+        heading: "Company Overview and Strategic Position",
+        copy:
+          "Blackbaud is a long-standing social impact software leader serving nonprofits, education, healthcare, and foundations globally. The company has pivoted to a cloud-first recurring SaaS model and is positioning itself as an AI-powered market leader for social impact organizations."
+      },
+      {
+        heading: "Financial and Portfolio Signals",
+        list: [
+          "FY2025 revenue reported at approximately $1.12B, with FY2024 at approximately $1.15B and FY2023 above $1B.",
+          "Business mix remains predominantly recurring revenue (subscription + payments).",
+          "EVERFI was divested on Dec 31, 2024, sharpening focus on core social impact software.",
+          "FY2025 marked a return to GAAP profitability."
+        ],
+        metrics: [
+          { label: "FY2025 Revenue", value: "~$1.12B" },
+          { label: "Recurring Mix", value: "~90%+" },
+          { label: "Portfolio Focus", value: "Core Social Impact" }
+        ]
+      },
+      {
+        heading: "Product and Platform Footprint",
+        list: [
+          "Raiser's Edge NXT, Blackbaud CRM, and Financial Edge NXT remain foundational product anchors.",
+          "SKY Platform provides the integration and developer layer across the portfolio.",
+          "Blackbaud Payments and related financial services continue as growth vectors.",
+          "YourCause and Impact Edge remain part of the corporate impact portfolio after the EVERFI divestiture."
+        ]
+      },
+      {
+        heading: "AI and Transformation Momentum",
+        list: [
+          "Agents for Good introduced autonomous, supervised workflow execution in Raiser's Edge NXT and Financial Edge NXT contexts.",
+          "70+ embedded AI capabilities signal a shift from systems of record toward systems of intelligent action.",
+          "The AI Coalition for Social Impact expands AI literacy and change readiness in Blackbaud's core constituency."
+        ],
+        decisionPrompts: [
+          "How should Salesforce differentiate trusted enterprise orchestration from embedded AI feature depth?",
+          "Which workflow moments should be prioritized to demonstrate measurable value against incumbent AI narratives?"
+        ]
+      },
+      {
+        heading: "Competitive Landscape Implications",
+        list: [
+          "Blackbaud's sector-specific depth and switching costs remain material competitive moats.",
+          "Salesforce and Microsoft are key platform-scale alternatives for organizations prioritizing broader ecosystem flexibility.",
+          "Emerging nonprofit-focused platforms continue to pressure mid-market and ease-of-use segments."
+        ],
+        risks: [
+          "A generic replacement narrative will underperform against Blackbaud's domain-specific positioning.",
+          "Migration concerns can delay adoption if modernization pathing is not phased and low-friction."
+        ]
+      },
       {
         heading: "Advisory Implication",
         copy:
@@ -704,15 +755,15 @@ const pages = {
     ]
   },
   "forward-looking-statement": {
-    title: "Forward Looking Statement",
+    title: "Forward looking statements",
     path: "/forward-looking-statement",
     group: "Appendix",
-    subtitle: "Mandatory legal language reproduced from the provided source artifact.",
+    subtitle: "",
     blocks: [
       {
-        heading: "Legal Notice",
+        heading: "Forward looking statements",
         copy:
-          "This presentation contains forward-looking statements about, among other things, trend analyses and statements regarding future events, anticipated growth and industry prospects, and strategies regarding product releases and enhancements."
+          "This presentation contains forward-looking statements about, among other things, trend analyses and statements regarding future events, anticipated growth and industry prospects, and our strategies, expectation or plans regarding product releases and enhancements. The achievement or success of the matters covered by such forward-looking statements involves risks, uncertainties and assumptions. If any such risks or uncertainties materialize or if any of the assumptions prove incorrect, results or outcomes could differ materially from those expressed or implied by these forward-looking statements. The risks and uncertainties referred to above include those factors discussed in Salesforce’s reports filed from time to time with the Securities and Exchange Commission, including, but not limited to our ability to meet the expectations of our customers; uncertainties regarding Al technologies and their integration into our product offerings; the effect of evolving domestic and foreign government regulations; regulatory developments and regulatory investigations involving us or affecting our industry; our ability to successfully introduce new services and product features, including related to AI and Agentforce; our ability to execute our business plans; the pace of change and innovation and our ability to compete in the markets in which we participate; and our ability to maintain and enhance our brands."
       }
     ]
   }
@@ -1084,22 +1135,9 @@ function Sidebar() {
 }
 
 export default function App() {
-  const location = useLocation();
-  const isPrint = location.pathname === "/print";
-
   useEffect(() => {
-    if (!isPrint) {
-      document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
-    }
-  }, [isPrint]);
-
-  if (isPrint) {
-    return (
-      <Routes>
-        <Route path="/print" element={<PrintView />} />
-      </Routes>
-    );
-  }
+    document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
+  }, []);
 
   return (
     <div className="layout">
