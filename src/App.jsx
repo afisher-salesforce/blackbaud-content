@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import PrintView from "./pages/PrintView";
 
 const NAV_KEY = "bbContentNavCollapsed";
 const TRAILHEAD_VERIFIED_AT = "2026-08-13";
@@ -1176,9 +1177,22 @@ function Sidebar() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const isPrint = location.pathname === "/print";
+
   useEffect(() => {
-    document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
-  }, []);
+    if (!isPrint) {
+      document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
+    }
+  }, [isPrint]);
+
+  if (isPrint) {
+    return (
+      <Routes>
+        <Route path="/print" element={<PrintView />} />
+      </Routes>
+    );
+  }
 
   return (
     <div className="layout">
