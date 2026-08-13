@@ -3,23 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 const ALLOWED_DOMAINS = ["blackbaud.com", "salesforce.com"];
 
 function ReplitAuthLogin() {
-  useEffect(() => {
-    const existing = document.querySelector("script[data-replit-auth]");
-    if (existing) return;
-    const script = document.createElement("script");
-    script.src = "https://auth.util.repl.co/script.js";
-    script.setAttribute("authed", "window.location.reload()");
-    script.setAttribute("data-replit-auth", "true");
-    document.body.appendChild(script);
-    return () => {
-      if (script.parentNode) script.parentNode.removeChild(script);
-    };
-  }, []);
+  const returnTo = encodeURIComponent(window.location.origin + window.location.pathname);
 
   return (
     <div className="auth-login-anchor">
-      <div className="replit-auth-button" data-theme="light" />
-      <a className="auth-fallback-button" href="/__replauth">
+      <a className="auth-fallback-button" href={`/__replauth?redirect=${returnTo}`}>
         Sign in with Replit
       </a>
     </div>
@@ -90,11 +78,11 @@ export function AuthGate({ children }) {
       );
     }
     if (session.status === "forbidden") {
+      const emailScopeMessage = session?.user?.missingEmailScope
+        ? "Sign-in succeeded, but your app did not receive an email claim. In Replit Auth settings, enable email scope and republish, then retry."
+        : `Signed in as ${session?.user?.email || "unknown user"}, but this site only allows blackbaud.com or salesforce.com domains.`;
       return (
-        <AuthShell
-          title="Access restricted"
-          message={`Signed in as ${session?.user?.email || "unknown user"}, but this site only allows blackbaud.com or salesforce.com domains.`}
-        >
+        <AuthShell title="Access restricted" message={emailScopeMessage}>
           <ReplitAuthLogin />
         </AuthShell>
       );
