@@ -597,21 +597,52 @@ const pages = {
       "Translate capability taxonomy into business meaning so teams can prioritize activation and funding decisions.",
     blocks: [
       {
-        heading: "High-Priority Domains",
+        heading: "Core Domain Coverage for Blackbaud Rationalization",
         list: [
-          "Data and AI: recommendation quality, trust, and context grounding.",
-          "Sales: in-workflow guidance and opportunity-linked execution.",
-          "Integration: resilient connectivity across content and identity systems."
+          "Data and AI: DAG, DDH, DVS, DUP, DIR, DEL, DPA, DFC.",
+          "Sales and Enablement: SEM, SGS, SDS, SOP, SSA, SSP, STM.",
+          "Integration and Ecosystem: IMS, IEI, IEP, IAM, IAF.",
+          "Marketing and Content: MCN, MAS, MMA, MJM, MLG, MPV.",
+          "Platform and Governance: PGV, PMD plus trust policy layers.",
+          "Service and Experience Continuity: VSS, VKB, VAX, VCM, VCH."
+        ],
+        metrics: [
+          { label: "Mapped Domains", value: "6", note: "Primary execution clusters for this program." },
+          { label: "Referenced Capabilities", value: "35+", note: "Across Data, Sales, Integration, Marketing, and Service." },
+          { label: "Priority Lens", value: "Adoption + Trust", note: "Value is gated by workflow fit and governance." }
+        ]
+      },
+      {
+        heading: "Domain-to-Outcome Mapping",
+        list: [
+          "Data and AI -> Improve recommendation precision, agent grounding, and trust-safe automation.",
+          "Sales and Enablement -> Increase seller productivity and opportunity progression quality.",
+          "Integration -> Protect execution continuity across Microsoft, CRM, and content systems.",
+          "Marketing and Content -> Standardize publishing, personalization, and channel consistency.",
+          "Platform and Governance -> Enforce policy, identity, auditability, and multi-org controls.",
+          "Service and Experience -> Preserve downstream customer support quality and knowledge continuity."
         ],
         decisionPrompts: [
-          "Which domain has the highest near-term business impact per dollar invested?",
-          "Where do dependencies require coordinated cross-domain execution?"
+          "Which domains are required for phase-one value realization versus phase-two scale?",
+          "Where do shared dependencies require joint ownership and budget alignment?"
+        ]
+      },
+      {
+        heading: "Capability Prioritization by Horizon",
+        list: [
+          "Near term: DDH, IMS, MCN, SEM, SGS, DEL, PGV.",
+          "Mid term: DVS, DIR, DUP, ABI, SSA, ORE, MAS, MJM.",
+          "Expansion: IAF, DFC, AEX, APC, ARI, advanced service and partner capabilities."
+        ],
+        risks: [
+          "Over-indexing on expansion capabilities before core workflow adoption can dilute ROI.",
+          "Domain sequencing without governance checkpoints can create architecture drift."
         ]
       },
       {
         heading: "Domain Prioritization Signal",
         copy:
-          "Integration domain should distinguish owned capabilities from incremental connector architecture, while governance assumes Microsoft-first collaboration channels for Sales/CS.",
+          "Integration domain planning should distinguish owned pathways from incremental connector architecture, while governance and collaboration assumptions remain Microsoft-first for Sales and Customer Success.",
         risks: [
           "Treating all domains as parallel priorities can dilute execution focus.",
           "Domain ownership ambiguity can slow dependency resolution."
@@ -774,8 +805,18 @@ const searchIndex = [
   { code: "DDH", name: "Data Harmonization", location: "Theme 1, Sequencing", path: "/theme-1", tags: "data cloud ingestion modeling" },
   { code: "MCN", name: "Content Management", location: "Theme 3", path: "/theme-3", tags: "governance publication policy" },
   { code: "ABI", name: "Embedded BI and Dashboards", location: "Theme 4", path: "/theme-4", tags: "attribution analytics measurement" },
-  { code: "PGV", name: "Data Governance and Privacy", location: "Theme 5, Scorecard", path: "/theme-5", tags: "trust security compliance" },
+  { code: "PGV", name: "Data Governance and Privacy", location: "Theme 5, Scorecard, Domain Map", path: "/theme-5", tags: "trust security compliance privacy governance controls" },
   { code: "ORE", name: "Recommendations and Experience", location: "Theme 3, Sequencing", path: "/capability-map", tags: "personalization experience" },
+  { code: "IMS", name: "Microsoft Ecosystem Integration", location: "Theme 1, Domain Map", path: "/domain-map", tags: "teams outlook sharepoint integration" },
+  { code: "IEI", name: "Enterprise Integration", location: "Theme 1, Domain Map", path: "/domain-map", tags: "orchestration integration platform" },
+  { code: "DVS", name: "Vector Search and RAG Grounding", location: "Themes 2, 4, Domain Map", path: "/domain-map", tags: "rag retrieval grounding knowledge" },
+  { code: "DIR", name: "Identity Resolution", location: "Domain Map", path: "/domain-map", tags: "profile unification data cloud identity" },
+  { code: "DUP", name: "Unified Customer Profile", location: "Domain Map", path: "/domain-map", tags: "customer 360 profile context" },
+  { code: "SEM", name: "Sales Enablement", location: "Theme 2, Domain Map", path: "/theme-2", tags: "sales content coaching" },
+  { code: "SGS", name: "Guided Solution Selling", location: "Theme 2, Domain Map", path: "/theme-2", tags: "guided selling recommendations" },
+  { code: "SDS", name: "Deal Support Requests", location: "Theme 3, Domain Map", path: "/theme-3", tags: "deal desk support workflows" },
+  { code: "MAS", name: "Audience Segmentation and Activation", location: "Domain Map", path: "/domain-map", tags: "segmentation activation marketing" },
+  { code: "MJM", name: "Journey Management", location: "Domain Map", path: "/domain-map", tags: "journey campaign orchestration" },
   {
     code: "SCORE",
     name: "Capability Scorecard",
