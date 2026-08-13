@@ -260,9 +260,181 @@ body.nav-collapsed .sidebar {
   color: #1c4b8f;
   font-weight: 600;
   font-size: 0.85rem;
-  cursor: pointer;
 }
 
 .auth-fallback-button:hover {
   background: #f3f8ff;
+}
+
+/* ── Export PDF button ─────────────────────────────────────────────────────── */
+
+.export-pdf-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+}
+
+#export-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--bb-trusted-blue);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.38rem 0.78rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#export-pdf:hover:not(:disabled) {
+  background: #005670;
+}
+
+#export-pdf:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.pdf-time-hint {
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.pdf-spinner {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdf-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pdf-spin {
+  to { transform: rotate(360deg); }
+}
+
+.pdf-error {
+  font-size: 0.78rem;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 0.4rem;
+  padding: 0.28rem 0.55rem;
+  max-width: 260px;
+  white-space: normal;
+}
+
+/* ─── Print / PDF Export ─────────────────────────────────────────────────── */
+/*
+ * Copied from index.css (which also contains a @import "tailwindcss" that is
+ * not installed in this artifact; that file is not imported from main.jsx).
+ * All print rules live here so they are included in the production CSS bundle.
+ */
+@media print {
+  /* Hide all navigation chrome */
+  aside,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset page background to white */
+  body,
+  html {
+    background: white !important;
+    color: #1e2229 !important;
+  }
+
+  /* Make the outer flex container stack vertically so main fills the page */
+  .bb-layout-root {
+    display: block !important;
+  }
+
+  /* Content area: full width, no overflow clipping */
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  /* Remove inner max-width / padding constraints */
+  .bb-content-inner {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Page break before each major section heading */
+  .bb-section-break {
+    page-break-before: always;
+    break-before: page;
+    margin-top: 0 !important;
+  }
+
+  /* Keep cards from splitting across pages */
+  .bb-card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Strip link decorations printed as "(url)" */
+  a::after {
+    content: none !important;
+  }
+
+  /* Ensure colours render in print */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* PrintView page — already has no sidebar/toolbar so just ensure white bg and full width */
+  .bb-print-section {
+    padding-top: 1rem;
+  }
+
+  /* PrintView content wrapper: remove max-width and padding so content fills the page */
+  .bb-print-view {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /*
+   * Within a PrintSection, the outer wrapper already provides the page break
+   * (via inline pageBreakBefore:'always'). Suppress the inner SectionTitle
+   * page-break-before so sub-sections don't fragment each page into multiple
+   * PDF pages. This keeps EnablementRoadmap (3 SectionTitles) and other pages
+   * with multiple SectionTitles on a single PDF page each.
+   */
+  .bb-print-section .bb-section-break {
+    page-break-before: auto !important;
+    break-before: auto !important;
+  }
+
+  /*
+   * Make Trailhead and other inline links legible in print.
+   * The global rule (a { color: inherit }) makes links invisible as links;
+   * in print context, give them a clear blue underline so readers can see
+   * where the links are even though they are not clickable on paper.
+   */
+  .bb-print-view a {
+    color: #173f82 !important;
+    text-decoration: underline !important;
+  }
+
+  /* Keep hero gradient blocks and legal disclaimer from splitting across pages */
+  .bb-hero,
+  .bb-legal-box {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Collapse multi-column card grids to a single column so cards don't render too narrow */
+  .bb-card-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
