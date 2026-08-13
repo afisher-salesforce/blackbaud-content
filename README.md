@@ -59,3 +59,44 @@ Current content incorporates v2 context corrections:
 - Microsoft-first Sales/CS delivery (Teams/SharePoint/Outlook)
 - Slack excluded as a Sales/CS dependency
 - MuleSoft entitlement correction (Dataloader.io Enterprise is owned; full Anypoint/Titanium is incremental)
+
+## Content enrichment model
+
+The React content framework now supports richer advisory cards per page section:
+
+- `copy` narrative framing
+- `list` structured bullets
+- `metrics` KPI/priority chips
+- `decisionPrompts` executive decision questions
+- `risks` dependency and risk callouts
+- `links` internal/external calls to action
+- `scoreRows` dimension-level scorecard rows
+
+## Scorecard framework
+
+The `Capability Scorecard` page is driven by a normalized dimension model:
+
+- `dimension`
+- `currentScore` and `targetScore` (1-5)
+- `confidence` (`Confirmed`, `Inferred`, `Pending`)
+- `evidence`
+- `owner`
+- `nextAction`
+
+An executive snapshot rollup is also surfaced in `Executive Summary`.
+
+## Trailhead MCP curation
+
+Enablement cards were curated via the Cursor `user-trailhead` MCP server:
+
+- `content_search` for candidate learning paths
+- `fetch_content` for high-signal validation and metadata checks
+
+Each curated entry includes:
+
+- `title`, `type`, `level`, `role`
+- `minutes`, `whyItMatters`
+- `apiName`, `url`
+- `verifiedAt`
+
+This keeps learning recommendations role-based, phase-aligned, and traceable to Trailhead validation runs.

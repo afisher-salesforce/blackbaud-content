@@ -190,6 +190,101 @@ a {
   padding: 1rem 1.05rem;
 }
 
+.card h4 {
+  margin: 0.8rem 0 0.45rem;
+  font-size: 0.9rem;
+}
+
+.metric-row {
+  margin: 0.65rem 0 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.metric-chip {
+  background: #f2f7ff;
+  border: 1px solid #d3e1f5;
+  border-radius: 0.65rem;
+  padding: 0.45rem 0.6rem;
+  min-width: 130px;
+  display: grid;
+  gap: 0.08rem;
+}
+
+.metric-chip strong {
+  color: #19488f;
+  font-size: 0.95rem;
+}
+
+.metric-chip span {
+  font-size: 0.72rem;
+  color: #4f607a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.metric-chip small {
+  font-size: 0.72rem;
+  color: #5f6f88;
+}
+
+.meta-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #d3ddeb;
+  border-radius: 999px;
+  padding: 0.24rem 0.55rem;
+  font-size: 0.72rem;
+  background: #f9fbff;
+  color: #3e5171;
+}
+
+.scorecard-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+}
+
+.score-card {
+  border-left: 4px solid #3b64a8;
+}
+
+.confidence-chip {
+  align-self: center;
+  border-radius: 999px;
+  padding: 0.28rem 0.58rem;
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.confidence-confirmed {
+  color: #195632;
+  background: #e7f8ed;
+  border: 1px solid #b8e6c8;
+}
+
+.confidence-inferred {
+  color: #765000;
+  background: #fff5dc;
+  border: 1px solid #f0dea8;
+}
+
+.confidence-pending {
+  color: #6f2b00;
+  background: #ffe9dc;
+  border: 1px solid #f3c8b1;
+}
+
+.enablement-card {
+  border-left: 4px solid #0f4f8c;
+}
+
+.muted-note {
+  color: #5d6f8a;
+  font-size: 0.85rem;
+}
+
 .pager {
   margin-top: 1.6rem;
   display: flex;
