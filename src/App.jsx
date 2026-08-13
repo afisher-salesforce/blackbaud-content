@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import PrintView from "./pages/PrintView";
 
 const NAV_KEY = "bbContentNavCollapsed";
 const TRAILHEAD_VERIFIED_AT = "2026-08-13";
@@ -740,6 +741,8 @@ const searchIndex = [
   }
 ];
 
+// ─── Sub-components ──────────────────────────────────────────────────────────
+
 function MetricList({ metrics = [] }) {
   if (!metrics.length) return null;
   return (
@@ -876,11 +879,94 @@ function EnablementGroups({ groups }) {
   );
 }
 
+function ExportPdfButton() {
+  const [status, setStatus] = useState("idle"); // "idle" | "generating" | "error"
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleExportPdf() {
+    if (status === "generating") return;
+    setStatus("generating");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/pdf");
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const body = await res.json();
+          detail = body.error || body.detail || "";
+        } catch {
+          // non-JSON body
+        }
+        throw new Error(detail || `Server returned ${res.status}`);
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Blackbaud-Content-Executive-Briefing.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      setStatus("idle");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setErrorMessage(msg || "PDF generation failed. Please try again.");
+      setStatus("error");
+    }
+  }
+
+  const isGenerating = status === "generating";
+
+  return (
+    <div className="export-pdf-wrap">
+      <button
+        id="export-pdf"
+        type="button"
+        disabled={isGenerating}
+        onClick={handleExportPdf}
+        aria-busy={isGenerating}
+      >
+        {isGenerating ? (
+          <>
+            <span className="pdf-spinner" aria-hidden="true" />
+            Generating… <span className="pdf-time-hint">(~25 seconds)</span>
+          </>
+        ) : (
+          "Download PDF"
+        )}
+      </button>
+      {status === "error" && (
+        <span className="pdf-error" role="alert">
+          {errorMessage}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function ToggleButton() {
+  const [collapsed, setCollapsed] = useState(localStorage.getItem(NAV_KEY) === "1");
+  useEffect(() => {
+    document.body.classList.toggle("nav-collapsed", collapsed);
+    localStorage.setItem(NAV_KEY, collapsed ? "1" : "0");
+  }, [collapsed]);
+
+  return (
+    <button id="nav-toggle" type="button" onClick={() => setCollapsed((v) => !v)}>
+      {collapsed ? "Show Navigation" : "Hide Navigation"}
+    </button>
+  );
+}
+
 function PageView({ page }) {
   return (
     <main className="content">
       <div className="top-toolbar">
         <ToggleButton />
+        <ExportPdfButton />
       </div>
       <h1 className="page-title">{page.title}</h1>
       <p className="page-subtitle">{page.subtitle}</p>
@@ -932,22 +1018,8 @@ function Pager({ page }) {
   );
 }
 
-function ToggleButton() {
-  const [collapsed, setCollapsed] = useState(localStorage.getItem(NAV_KEY) === "1");
-  useEffect(() => {
-    document.body.classList.toggle("nav-collapsed", collapsed);
-    localStorage.setItem(NAV_KEY, collapsed ? "1" : "0");
-  }, [collapsed]);
-
-  return (
-    <button id="nav-toggle" type="button" onClick={() => setCollapsed((v) => !v)}>
-      {collapsed ? "Show Navigation" : "Hide Navigation"}
-    </button>
-  );
-}
-
 function Sidebar() {
-  const [location] = useLocation();
+  const location = useLocation();
   const [query, setQuery] = useState("");
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -1000,7 +1072,7 @@ function Sidebar() {
             {Object.values(pages)
               .filter((p) => p.group === group)
               .map((page) => (
-                <Link key={page.path} className={`nav-item ${location === page.path ? "active" : ""}`} to={page.path}>
+                <Link key={page.path} className={`nav-item ${location.pathname === page.path ? "active" : ""}`} to={page.path}>
                   {page.title}
                 </Link>
               ))}
@@ -1012,9 +1084,22 @@ function Sidebar() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const isPrint = location.pathname === "/print";
+
   useEffect(() => {
-    document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
-  }, []);
+    if (!isPrint) {
+      document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
+    }
+  }, [isPrint]);
+
+  if (isPrint) {
+    return (
+      <Routes>
+        <Route path="/print" element={<PrintView />} />
+      </Routes>
+    );
+  }
 
   return (
     <div className="layout">
