@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
+const ALLOWED_DOMAINS = ["blackbaud.com", "salesforce.com"];
+
 function ReplitAuthLogin() {
   useEffect(() => {
     const existing = document.querySelector("script[data-replit-auth]");
@@ -14,7 +16,14 @@ function ReplitAuthLogin() {
     };
   }, []);
 
-  return <div className="auth-login-anchor" />;
+  return (
+    <div className="auth-login-anchor">
+      <div className="replit-auth-button" data-theme="light" />
+      <a className="auth-fallback-button" href="/__replauth">
+        Sign in with Replit
+      </a>
+    </div>
+  );
 }
 
 function AuthShell({ title, message, children }) {
@@ -24,6 +33,13 @@ function AuthShell({ title, message, children }) {
         <img src="/blackbaud-favicon.png" alt="Blackbaud" className="auth-icon" />
         <h1>{title}</h1>
         <p>{message}</p>
+        <div className="domain-pill-row" aria-label="Allowed domains">
+          {ALLOWED_DOMAINS.map((domain) => (
+            <span key={domain} className="domain-pill">
+              {domain}
+            </span>
+          ))}
+        </div>
         {children}
       </div>
     </div>
