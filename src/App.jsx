@@ -1,6 +1,29 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import PrintView from "./pages/PrintView";
+import { Component, useEffect, useMemo, useRef, useState } from "react";
+import { BrowserRouter, Link, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { ClerkProvider, SignIn, SignUp, useAuth, useClerk, useUser } from "@clerk/react";
+import { publishableKeyFromHost } from "@clerk/react/internal";
+
+// ── Clerk setup ─────────────────────────────────────────────────────────────
+const clerkPubKey = publishableKeyFromHost(
+  window.location.hostname,
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+);
+const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
+
+// ── Domain restriction ──────────────────────────────────────────────────────
+const ALLOWED_DOMAINS = ["blackbaud.com", "salesforce.com"];
+const ADMIN_EMAILS = new Set([
+  "afisher@salesforce.com",
+  "bill.schermer@salesforce.com",
+]);
+
+function isAllowedDomain(email) {
+  const normalized = email.toLowerCase();
+  return (
+    ADMIN_EMAILS.has(normalized) ||
+    ALLOWED_DOMAINS.some((d) => normalized.endsWith(`@${d}`))
+  );
+}
 
 const NAV_KEY = "bbContentNavCollapsed";
 const TRAILHEAD_VERIFIED_AT = "2026-08-13";
@@ -1113,6 +1136,8 @@ function Pager({ page }) {
 
 function Sidebar() {
   const location = useLocation();
+  const { signOut } = useClerk();
+  const { user } = useUser();
   const [query, setQuery] = useState("");
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -1172,27 +1197,217 @@ function Sidebar() {
           </div>
         </div>
       ))}
+      <div style={{ marginTop: "auto", paddingTop: "1rem", borderTop: "1px solid rgba(255,255,255,0.15)" }}>
+        {user?.primaryEmailAddress?.emailAddress && (
+          <p style={{
+            fontSize: "0.72rem",
+            color: "#97bdc8",
+            padding: "0 0.45rem 0.4rem",
+            margin: 0,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}>
+            {user.primaryEmailAddress.emailAddress}
+          </p>
+        )}
+        <button
+          type="button"
+          onClick={() => signOut({ redirectUrl: "/" })}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+            width: "100%",
+            color: "#cde5eb",
+            padding: "0.5rem 0.45rem 0.5rem 0.62rem",
+            fontSize: "0.88rem",
+          }}
+        >
+          Sign Out
+        </button>
+      </div>
     </aside>
   );
 }
 
-export default function App() {
-  const location = useLocation();
-  const isPrint = location.pathname === "/print";
+// ── Clerk auth components ───────────────────────────────────────────────────
+function LoadingScreen() {
+  return (
+    <div className="auth-shell">
+      <div className="auth-card">
+        <p>Loading…</p>
+      </div>
+    </div>
+  );
+}
+
+function DomainGate({ children }) {
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) return <LoadingScreen />;
+
+  const email = user?.primaryEmailAddress?.emailAddress ?? "";
+  if (user && !isAllowedDomain(email)) return <DomainRejected />;
+
+  return <>{children}</>;
+}
+
+function DomainRejected() {
+  const { signOut } = useClerk();
+  const hasSignedOutRef = useRef(false);
 
   useEffect(() => {
-    if (!isPrint) {
-      document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
-    }
-  }, [isPrint]);
+    if (hasSignedOutRef.current) return;
+    hasSignedOutRef.current = true;
+    const timer = window.setTimeout(() => {
+      void signOut({ redirectUrl: "/" });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [signOut]);
 
-  if (isPrint) {
-    return (
-      <Routes>
-        <Route path="/print" element={<PrintView />} />
-      </Routes>
-    );
+  return (
+    <div className="auth-shell">
+      <div className="auth-card">
+        <img src="/blackbaud-favicon.png" alt="Blackbaud" className="auth-icon" />
+        <h1>Access Restricted</h1>
+        <p>
+          This site is available to <strong>blackbaud.com</strong> and{" "}
+          <strong>salesforce.com</strong> email domains only.
+          You are being signed out.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SignInPage() {
+  const { isLoaded, isSignedIn } = useAuth();
+  if (isLoaded && isSignedIn) return <Navigate to="/" replace />;
+  return (
+    <div className="auth-shell">
+      <SignIn routing="path" path="/sign-in" />
+    </div>
+  );
+}
+
+function SignUpPage() {
+  const { isLoaded, isSignedIn } = useAuth();
+  if (isLoaded && isSignedIn) return <Navigate to="/" replace />;
+  return (
+    <div className="auth-shell">
+      <SignUp routing="path" path="/sign-up" />
+    </div>
+  );
+}
+
+function Landing() {
+  return (
+    <div className="auth-shell">
+      <div className="auth-card">
+        <img src="/blackbaud-favicon.png" alt="Blackbaud" className="auth-icon" />
+        <h1>Blackbaud Content Management Rationalization</h1>
+        <p>Salesforce Executive Discussion Site</p>
+        <div className="domain-pill-row">
+          {ALLOWED_DOMAINS.map((domain) => (
+            <span key={domain} className="domain-pill">@{domain}</span>
+          ))}
+        </div>
+        <div className="auth-login-anchor">
+          <Link to="/sign-in" className="auth-fallback-button">Sign In</Link>
+          <Link to="/sign-up" className="auth-fallback-button">Request Access</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HomeRoute() {
+  const { isLoaded, isSignedIn } = useAuth();
+  if (!isLoaded) return <LoadingScreen />;
+  if (isSignedIn) return <DomainGate><ProtectedApp /></DomainGate>;
+  return <Landing />;
+}
+
+// ── Auth gate for deep-linked protected routes ──────────────────────────────
+function AuthGate() {
+  const { isLoaded, isSignedIn } = useAuth();
+  if (!isLoaded) return <LoadingScreen />;
+  if (!isSignedIn) return <Navigate to="/sign-in" replace />;
+  return <DomainGate><ProtectedApp /></DomainGate>;
+}
+
+// ── Error boundary ──────────────────────────────────────────────────────────
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
   }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="auth-shell">
+          <div className="auth-card">
+            <h1>Something went wrong</h1>
+            <pre style={{ fontSize: "0.8rem", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+              {this.state.error?.message}
+            </pre>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// ── Clerk router integration ────────────────────────────────────────────────
+function ClerkProviderWithRoutes() {
+  const navigate = useNavigate();
+
+  return (
+    <ClerkProvider
+      publishableKey={clerkPubKey}
+      proxyUrl={clerkProxyUrl}
+      signInUrl="/sign-in"
+      signUpUrl="/sign-up"
+      afterSignInUrl="/"
+      afterSignUpUrl="/"
+      localization={{
+        signIn: {
+          start: {
+            title: "Blackbaud Content",
+            subtitle: "Sign in to the Executive Discussion Site",
+          },
+        },
+        signUp: {
+          start: {
+            title: "Request Access",
+            subtitle: "Create an account to access the site",
+          },
+        },
+      }}
+      routerPush={(to) => navigate(to)}
+      routerReplace={(to) => navigate(to, { replace: true })}
+    >
+      <Routes>
+        <Route path="/" element={<HomeRoute />} />
+        <Route path="/sign-in/*" element={<SignInPage />} />
+        <Route path="/sign-up/*" element={<SignUpPage />} />
+        <Route path="*" element={<AuthGate />} />
+      </Routes>
+    </ClerkProvider>
+  );
+}
+
+// ── Protected app ───────────────────────────────────────────────────────────
+function ProtectedApp() {
+  useEffect(() => {
+    document.body.classList.toggle("nav-collapsed", localStorage.getItem(NAV_KEY) === "1");
+  }, []);
 
   return (
     <div className="layout">
@@ -1204,5 +1419,15 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <BrowserRouter>
+        <ClerkProviderWithRoutes />
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }

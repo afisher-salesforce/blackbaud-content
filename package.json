@@ -5,21 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "api-server": "node server/api-server.js",
     "build": "vite build",
-    "start": "node server/index.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server.js"
   },
   "dependencies": {
-    "cookie-parser": "^1.4.7",
+    "@clerk/react": "^6.14.1",
+    "@clerk/themes": "^2.4.57",
+    "@vitejs/plugin-react": "^4.3.4",
     "express": "^4.21.2",
-    "openid-client": "^6.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.30.1"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
+    "react-router-dom": "^6.30.1",
     "vite": "^5.4.19"
   }
 }
